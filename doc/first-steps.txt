@@ -1,0 +1,38 @@
+== Amazon Web Services
+
+EC2 t2.micro instance
+2 hours of reading documentation
+Elastic IP
+DNS: first pass using GoDaddy. May shift to AWS DNS service. Cheaper: $20/yr > $12/yr
+
+
+== Server Users, Groups, Permissions
+
+Set up user 'daniel' and 'ian'            
+$ adduser daniel
+
+Created group 'dwarves' (1003) consisting of users 'daniel' and 'ian' by editing /etc/group
+    One main purpose of this group is to assign ownership of shared resources (notes) to it
+    Added 'daniel' and 'ian' to group sudo.
+
+(Note: To forcibly clear a password, one can edit /etc/shadow as root, and delete the password hash)
+
+To add an ssh public key for a user, paste the public key on a new line in ~/.ssh/authorized_keys
+    If using the public key associated with ~/.ssh/id_rsa (Linux) of the "local" (home) PC 
+    then to ssh into the server does not need the -i option.
+    $ ssh daniel@3.12.75.110
+
+    If using a non-default filename, then the key must be specified
+    $ ssh -i IanKey.pem ian@3.12.75.110
+
+NOTE: ssh get pissed off (error 'public key') if you
+    add one user to another user's group (/etc/group)
+        daniel:x:1001:ian
+        ian:x:1002:daniel
+    assign a user to a different group (/etc/passwd)
+        daniel:x:1001:1003:Daniel Kohler,,,,dgkohler@gmail.com:/home/daniel:/bin/bash
+
+== Software Installation
+
+$ sudo apt install apache2 mysql-server nodejs npm
+
